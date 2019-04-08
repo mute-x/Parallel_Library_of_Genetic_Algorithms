@@ -39,13 +39,20 @@ def plot_result(results):
         ax.set_xticklabels(row_labels, minor=False)
         ax.set_yticklabels(column_labels, minor=False)
 
-        plt.text(0.1, 1.05,
+        max_current_value = -10000000
+        for item in items:
+            if data[item[0]][item[1]] > max_current_value:
+                max_current_value = data[item[0]][item[1]]
+            circ = plt.Circle((item[0] + 0.5 - results['x'][0], item[1] + 0.5 - results['y'][0]), radius=0.2, color='r')
+            ax.add_patch(circ)
+
+        plt.text(0.05, 1.1,
                      "Current iteration: {}".format(iteration),
                      transform=plt.gca().transAxes)
 
-        for item in items:
-            circ = plt.Circle((item[0] + 0.5 - results['x'][0], item[1] + 0.5 - results['y'][0]), radius=0.2, color='r')
-            ax.add_patch(circ)
+        plt.text(0.05, 1.025,
+                     "Best current value: {}".format(max_current_value),
+                     transform=plt.gca().transAxes)
 
         fig.savefig('results/{}.png'.format(iteration))
 
