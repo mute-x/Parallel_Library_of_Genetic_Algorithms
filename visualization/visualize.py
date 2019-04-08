@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import imageio
 import numpy as np
+import os
 
 
 def parse_file(in_filename):
@@ -39,21 +40,28 @@ def plot_result(results):
         ax.set_xticklabels(row_labels, minor=False)
         ax.set_yticklabels(column_labels, minor=False)
 
-        plt.text(0.1, 1.05,
-                     "Current iteration: {}".format(iteration),
-                     transform=plt.gca().transAxes)
-
+        max_current_value = -10000000
         for item in items:
+            if data[item[0]][item[1]] > max_current_value:
+                max_current_value = data[item[0]][item[1]]
             circ = plt.Circle((item[0] + 0.5 - results['x'][0], item[1] + 0.5 - results['y'][0]), radius=0.2, color='r')
             ax.add_patch(circ)
 
-        fig.savefig('results/{}.png'.format(iteration))
+        plt.text(0.05, 1.1,
+                     "Current iteration: {}".format(iteration),
+                     transform=plt.gca().transAxes)
+
+        plt.text(0.05, 1.025,
+                     "Best current value: {}".format(max_current_value),
+                     transform=plt.gca().transAxes)
+
+        fig.savefig('{}.png'.format(iteration))
 
     def create_gif(filenames, duration):
         images = []
         for filename in filenames:
             images.append(imageio.imread(filename))
-        output_file = 'Gif-result.gif'
+        output_file = 'gif_pictures/parallel_library_of_genetic_algorithms/new_result.gif'
         imageio.mimsave(output_file, images, duration=duration)
 
     column_labels = list(range(results['y'][0], results['y'][1] + 1))
@@ -63,7 +71,9 @@ def plot_result(results):
     for i in range(1, results['number_of_iterations'] + 1):
         plot_current_iteration(i, results['moving'][i - 1])
 
-    create_gif(['results/{}.png'.format(i) for i in range(1, results['number_of_iterations'] + 1)], 1)
+    create_gif(['{}.png'.format(i) for i in range(1, results['number_of_iterations'] + 1)], 0.5)
+    for i in range(1, results['number_of_iterations'] + 1):
+        os.remove("{}.png".format(i))
 
 
 def main(in_filename):
