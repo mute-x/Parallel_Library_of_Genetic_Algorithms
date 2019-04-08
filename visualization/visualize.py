@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import imageio
 import numpy as np
 import os
+import sys
+plt.rcParams.update({'figure.max_open_warning': 0})
 
 
 def parse_file(in_filename):
@@ -31,7 +33,11 @@ def parse_file(in_filename):
 def plot_result(results):
     def plot_current_iteration(iteration, items):
         fig, ax = plt.subplots()
-        heatmap = ax.pcolor(data, cmap=plt.cm.Blues)
+        data1 = []
+        for i in range(len(data)):
+            data1.append([row[i] for row in data])
+
+        heatmap = ax.pcolor(data1, cmap=plt.cm.Blues)
 
         # put the major ticks at the middle of each cell
         ax.set_xticks(np.arange(data.shape[0]) + 0.5, minor=False)
@@ -42,9 +48,12 @@ def plot_result(results):
 
         max_current_value = -10000000
         for item in items:
-            if data[item[0]][item[1]] > max_current_value:
-                max_current_value = data[item[0]][item[1]]
-            circ = plt.Circle((item[0] + 0.5 - results['x'][0], item[1] + 0.5 - results['y'][0]), radius=0.2, color='r')
+            try:
+                if data[item[0] - results['x'][0]][item[1] - results['y'][0]] > max_current_value:
+                    max_current_value = data[item[0] - results['y'][0]][item[1] - results['y'][0]]
+            except IndexError:
+                print(item)
+            circ = plt.Circle((item[0] + 0.5 - results['x'][0], item[1] + 0.5 - results['y'][0]), radius=0.4, color='r')
             ax.add_patch(circ)
 
         plt.text(0.05, 1.1,
@@ -82,4 +91,8 @@ def main(in_filename):
 
 
 if __name__ == "__main__":
-    main('../data/example.txt')
+    if len(sys.argv) > 1:
+        filename = sys.argv[1]
+    else:
+        filename = 'example.txt'
+    main('../data/{}'.format(filename))
