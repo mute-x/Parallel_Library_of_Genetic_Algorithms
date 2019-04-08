@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import imageio
 import numpy as np
+import os
 
 
 def parse_file(in_filename):
@@ -54,13 +55,13 @@ def plot_result(results):
                      "Best current value: {}".format(max_current_value),
                      transform=plt.gca().transAxes)
 
-        fig.savefig('results/{}.png'.format(iteration))
+        fig.savefig('{}.png'.format(iteration))
 
     def create_gif(filenames, duration):
         images = []
         for filename in filenames:
             images.append(imageio.imread(filename))
-        output_file = 'Gif-result.gif'
+        output_file = 'gif_pictures/parallel_library_of_genetic_algorithms/new_result.gif'
         imageio.mimsave(output_file, images, duration=duration)
 
     column_labels = list(range(results['y'][0], results['y'][1] + 1))
@@ -70,7 +71,9 @@ def plot_result(results):
     for i in range(1, results['number_of_iterations'] + 1):
         plot_current_iteration(i, results['moving'][i - 1])
 
-    create_gif(['results/{}.png'.format(i) for i in range(1, results['number_of_iterations'] + 1)], 1)
+    create_gif(['{}.png'.format(i) for i in range(1, results['number_of_iterations'] + 1)], 0.5)
+    for i in range(1, results['number_of_iterations'] + 1):
+        os.remove("{}.png".format(i))
 
 
 def main(in_filename):
