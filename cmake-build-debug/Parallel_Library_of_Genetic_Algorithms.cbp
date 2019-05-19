@@ -126,5 +126,8 @@
 		<Unit filename="/home/arattel/CLionProjects/Parallel_Library_of_Genetic_Algorithms/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
+		<Unit filename="/home/arattel/CLionProjects/Parallel_Library_of_Genetic_Algorithms/FindTBB.cmake">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
 	</Project>
 </CodeBlocks_project_file>

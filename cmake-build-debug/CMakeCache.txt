@@ -200,6 +200,39 @@ ProcessorCount_cmd_getconf:FILEPATH=/usr/bin/getconf
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
 
+//The directory containing a CMake configuration file for TBB.
+TBB_DIR:PATH=TBB_DIR-NOTFOUND
+
+//Path to a file.
+TBB_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a file.
+TBB_MALLOC_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+TBB_MALLOC_LIBRARY_DEBUG:FILEPATH=TBB_MALLOC_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+TBB_MALLOC_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libtbbmalloc.so
+
+//Path to a file.
+TBB_MALLOC_PROXY_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+TBB_MALLOC_PROXY_LIBRARY_DEBUG:FILEPATH=TBB_MALLOC_PROXY_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+TBB_MALLOC_PROXY_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libtbbmalloc_proxy.so
+
+//Path to a file.
+TBB_TBB_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+TBB_TBB_LIBRARY_DEBUG:FILEPATH=TBB_TBB_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+TBB_TBB_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libtbb.so
+
 
 ########################
 # INTERNAL cache entries
@@ -346,8 +379,30 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding TBB
+FIND_PACKAGE_MESSAGE_DETAILS_TBB:INTERNAL=[/usr/include][cfound components:  tbb malloc malloc_proxy ][v2017.0()]
 //ADVANCED property for variable: ProcessorCount_cmd_getconf
 ProcessorCount_cmd_getconf-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ProcessorCount_cmd_sysctl
 ProcessorCount_cmd_sysctl-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_INCLUDE_DIR
+TBB_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_MALLOC_INCLUDE_DIR
+TBB_MALLOC_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_MALLOC_LIBRARY_DEBUG
+TBB_MALLOC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_MALLOC_LIBRARY_RELEASE
+TBB_MALLOC_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_MALLOC_PROXY_INCLUDE_DIR
+TBB_MALLOC_PROXY_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_MALLOC_PROXY_LIBRARY_DEBUG
+TBB_MALLOC_PROXY_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_MALLOC_PROXY_LIBRARY_RELEASE
+TBB_MALLOC_PROXY_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_TBB_INCLUDE_DIR
+TBB_TBB_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_TBB_LIBRARY_DEBUG
+TBB_TBB_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: TBB_TBB_LIBRARY_RELEASE
+TBB_TBB_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 
