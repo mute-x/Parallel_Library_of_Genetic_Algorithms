@@ -30,7 +30,7 @@ void FullReplacementGenerator::new_generation(std::vector<individual> &populatio
     }
 }
 
-void FullReplacementGenerator::new_generation_parallel(std::vector<individual> &population, fitness_function fitness) {
+void ParallelReplacementGenerator::new_generation(std::vector<individual> &population, fitness_function fitness) {
     std::vector<individual> old_population(population);
     selector.set_population(old_population);
     for (size_t i = 0; i < population.size(); i++) {
@@ -38,9 +38,9 @@ void FullReplacementGenerator::new_generation_parallel(std::vector<individual> &
         population[i].first = mutator.mutate(recombinator.crossover(
                 old_population[parents.first].first, old_population[parents.second].first));
     }
-    tbb::parallel_for(tbb::blocked_range<size_t>(0, population.size()),
-                 CalculateFitness(population, fitness));
-
+    tbb::parallel_for(static_cast<size_t>(0), population.size(), [&population, fitness] (size_t i) {
+	    population[i].second = fitness(population[i].first);
+    });
 }
 
 

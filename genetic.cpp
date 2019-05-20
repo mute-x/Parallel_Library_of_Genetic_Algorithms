@@ -32,7 +32,7 @@ std::vector<bool> Genetic::run(Finisher &condition)
 	generator.create_population(population, function);
 	dump_population();
 	while (!condition.is_finish(population)) {
-		generator.new_generation_parallel(population, function);
+		generator.new_generation(population, function);
 		dump_population();
 	}
 	return std::max_element(population.begin(), population.end(), [](individual& a, individual& b){ return a.second < b.second;})->first;
