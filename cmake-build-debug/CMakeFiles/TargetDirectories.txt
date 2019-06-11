@@ -1,3 +1,0 @@
-/home/arattel/CLionProjects/Parallel_Library_of_Genetic_Algorithms/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/arattel/CLionProjects/Parallel_Library_of_Genetic_Algorithms/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/arattel/CLionProjects/Parallel_Library_of_Genetic_Algorithms/cmake-build-debug/CMakeFiles/Parallel_Library_of_Genetic_Algorithms.dir
