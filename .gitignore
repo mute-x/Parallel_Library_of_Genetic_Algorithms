@@ -1,6 +1,15 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
+
+# Generated unnecessary files
+.idea
+CMakeFiles
+Parallel_Library_of_Genetic_Algorithms
+Parallel_Library_of_Genetic_Algorithms.cbp
+cmake-build-*
+
+
 *~
 *.autosave
 *.a
