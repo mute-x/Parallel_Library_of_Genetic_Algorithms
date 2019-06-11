@@ -3,6 +3,8 @@
 #define GENERATOR_H
 
 #include "genetic.h"
+#include "tbb/tbb.h"
+
 
 class Selector;
 class Recombinator;
@@ -25,6 +27,14 @@ class FullReplacementGenerator: public Generator
 {
 public:
 	FullReplacementGenerator(Selector& sel, Recombinator& rec, Mutator& m):
+		Generator(sel, rec, m) {}
+	virtual void new_generation(std::vector<individual> &population, fitness_function fitness);
+};
+
+class ParallelReplacementGenerator: public Generator
+{
+public:
+	ParallelReplacementGenerator(Selector& sel, Recombinator& rec, Mutator& m):
 		Generator(sel, rec, m) {}
 	virtual void new_generation(std::vector<individual> &population, fitness_function fitness);
 };
