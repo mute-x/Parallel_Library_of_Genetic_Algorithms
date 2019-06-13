@@ -12,29 +12,35 @@
 
 #include <numeric>
 
-#define NUM_BITS 5
-
-std::pair<int, int> convert(std::vector<bool>& genome) {
-	std::pair<int, int> result(std::accumulate(genome.rbegin(), genome.rbegin() + NUM_BITS - 1, 0, [](int x, int y) { return (x << 1) + y; })
-				   * (*(genome.rbegin() + NUM_BITS - 1) ? -1 : 1),
-					   std::accumulate(genome.rbegin() + NUM_BITS, genome.rbegin() + NUM_BITS * 2 - 1, 0,
-							       [](int x, int y) { return (x << 1) + y; })
-				   * (*(genome.rbegin() + NUM_BITS * 2 - 1) ? -1 : 1));
-	return result;
+fitness_measure f0(double x, double y) {
+	int a = 20;
+	double b = 0.2;
+	double c = 6.2831853;
+	return 25 - (-a * exp(-b * sqrt(0.5 * (x*x/10000 + y*y/10000))) - exp(0.5 * (cos(c*x/100) + cos(c*y/100))) + a + exp(1));
 }
 
-fitness_measure f0(int x, int y) {
-	return 1000 - 2*(x*x + y*y);
+auto range = std::make_tuple(std::make_pair(-1000., 1000.), std::make_pair(-1000., 1000.));
+
+#include <chrono>
+#include <atomic>
+
+typedef std::chrono::high_resolution_clock::time_point timep;
+
+inline timep get_current_time_fenced()
+{
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    auto res_time = std::chrono::high_resolution_clock::now();
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    return res_time;
 }
 
-fitness_measure f(std::vector<bool>& genome) {
-	std::pair<int, int> data = convert(genome);
-	return f0(data.first, data.second);
+inline long long to_us(const std::chrono::high_resolution_clock::duration & d)
+{
+    return std::chrono::duration_cast<std::chrono::microseconds>(d).count();
 }
 
-void dump(std::vector<bool> & genome) {
-	std::pair<int, int> data = convert(genome);
-	std::cout << '(' << data.first << ',' << data.second << ')' << ' ';
+void dump(double x, double y) {
+	std::cout << '(' << x<< ',' << y << ')' << ' ';
 }
 
 #define NUM_ITERATION	100
@@ -45,20 +51,22 @@ int main()
 	IterationFinisher finish(NUM_ITERATION);
 	BestFitSelector sel;
 	UniformPointRecombinator rec(1);
-	RandomMutator mut(0.1);
-	FullReplacementGenerator gen(sel, rec, mut);
-	Genetic algo(NUM_BITS * 2, POPULATION_SIZE, f, gen);
+	RandomMutator mut(0.2);
+	ParallelReplacementGenerator gen(sel, rec, mut);
+	Genetic<double, double> algo(POPULATION_SIZE, f0, range, gen);
 
 	algo.enable_output(dump);
 
 	std::cout << POPULATION_SIZE << ' ' << NUM_ITERATION << std::endl;
-	std::cout << -16 << ' ' << 15 << ' ' << -16 << ' ' << 15 << std::endl;
-	for (int i=-16; i < 16; i++) {
-		for (int j = -16; j < 16; j++)
-			std::cout << f0(i,j) << ' ';
-		std::cout << std::endl;
-	}
-	algo.run(finish);
+	std::cout << std::get<0>(range).first << ' ' << std::get<0>(range).second << ' ' <<
+		     std::get<1>(range).first << ' ' << std::get<1>(range).second << std::endl;
+
+//	timep start = get_current_time_fenced();
+
+	auto best = algo.run(finish);
+	std::cout << '(' << std::get<0>(best) << ',' << std::get<1>(best) << ") " << std::apply(f0, best) << std::endl;
+
+//	std::cout << to_us(get_current_time_fenced() - start) << std::endl;
 
 	return 0;
 }

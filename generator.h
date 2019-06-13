@@ -2,9 +2,8 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 
-#include "genetic.h"
 #include "tbb/tbb.h"
-
+#include "genetic_def.h"
 
 class Selector;
 class Recombinator;
@@ -17,6 +16,7 @@ protected:
 	Recombinator& recombinator;
 	Mutator& mutator;
 public:
+	typedef std::function<fitness_measure(std::vector<bool>&)> fitness_function;
 	Generator(Selector& sel, Recombinator& rec, Mutator& m);
 	// TODO make population & fitness passed to the class only once
 	virtual void create_population(std::vector<individual>& population, fitness_function fitness);

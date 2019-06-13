@@ -2,7 +2,7 @@
 #ifndef FINISHER_H
 #define FINISHER_H
 
-#include "genetic.h"
+#include "genetic_def.h"
 
 class Finisher
 {
